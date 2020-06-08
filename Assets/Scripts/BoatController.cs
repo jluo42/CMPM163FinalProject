@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoatController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class BoatController : MonoBehaviour
     Transform defaultPlayerTransform;
     bool isDriving = false;
     Rigidbody rb;
+    public Text boatText;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +21,7 @@ public class BoatController : MonoBehaviour
         player = cm.gameObject;
         defaultPlayerTransform = player.transform.parent;
         rb = GetComponent<Rigidbody>();
+        boatText.enabled = false;
         
 
     }
@@ -42,10 +45,19 @@ public class BoatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(Input.GetKeyDown(KeyCode.E) && IsPlayerCloseToBoat())
+       if(Vector3.Distance(gameObject.transform.position, player.transform.position) < 10)
+        {
+            boatText.enabled = true;
+        } else
+        {
+            boatText.enabled = false;
+        }
+
+       if (Input.GetKeyDown(KeyCode.E) && IsPlayerCloseToBoat())
         {
             SetDriving(!isDriving);
-        }
+        } 
+
        if(isDriving)
         {
             float forwardThrust = 0;
